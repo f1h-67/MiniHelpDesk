@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MiniHelpDesk.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PageBackground">#F4F7F5</Color>
+            <Color x:Key="Surface">#FFFFFF</Color>
+            <Color x:Key="Ink">#182A28</Color>
+            <Color x:Key="MutedInk">#63736F</Color>
+            <Color x:Key="Accent">#176B63</Color>
+            <Color x:Key="AccentLight">#E5F2EF</Color>
+            <Color x:Key="Line">#DCE5E1</Color>
+            <Color x:Key="Danger">#B42318</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+                <Setter Property="MinimumHeightRequest" Value="48" />
+            </Style>
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+                <Setter Property="MinimumHeightRequest" Value="92" />
+                <Setter Property="AutoSize" Value="TextChanges" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="{StaticResource Ink}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+                <Setter Property="MinimumHeightRequest" Value="48" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="MinimumHeightRequest" Value="46" />
+                <Setter Property="Padding" Value="16,10" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

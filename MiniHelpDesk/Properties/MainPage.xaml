@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MiniHelpDesk.MainPage"
+             x:Name="RootPage"
+             BackgroundColor="{StaticResource PageBackground}"
+             Title="Mini HelpDesk">
+    <Grid RowDefinitions="Auto,*" RowSpacing="8" Padding="18,14">
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="12">
+            <VerticalStackLayout Spacing="2">
+                <Label Text="Mini HelpDesk" FontSize="28" FontAttributes="Bold" />
+                <Label Text="Zgłoszenia techniczne w jednym miejscu" TextColor="{StaticResource MutedInk}" FontSize="14" />
+            </VerticalStackLayout>
+            <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Border BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}" Padding="14,9">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Binding TotalCount}" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                        <Label Text="wszystkie" VerticalOptions="Center" TextColor="{StaticResource MutedInk}" />
+                    </HorizontalStackLayout>
+                </Border>
+                <Border Grid.Column="1" BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}" Padding="14,9">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14" /></Border.StrokeShape>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="{Binding OpenCount}" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                        <Label Text="niezakończone" VerticalOptions="Center" TextColor="{StaticResource MutedInk}" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="Workspace" Grid.Row="1" RowDefinitions="*,*" ColumnDefinitions="*,*" ColumnSpacing="14" RowSpacing="12">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="ResponsiveLayout">
+                    <VisualState x:Name="Compact" />
+                    <VisualState x:Name="Wide">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="820" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="TicketListPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="TicketListPanel" Property="Grid.Column" Value="0" />
+                            <Setter TargetName="TicketListPanel" Property="Grid.RowSpan" Value="2" />
+                            <Setter TargetName="TicketListPanel" Property="Grid.ColumnSpan" Value="1" />
+                            <Setter TargetName="FormPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="FormPanel" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="FormPanel" Property="Grid.RowSpan" Value="2" />
+                            <Setter TargetName="FormPanel" Property="Grid.ColumnSpan" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Border x:Name="FormPanel" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}" Padding="0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                <ScrollView>
+                    <VerticalStackLayout Padding="18" Spacing="12">
+                        <Label Text="{Binding FormTitle}" FontSize="21" FontAttributes="Bold" />
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Nazwa" FontAttributes="Bold" />
+                            <Entry Placeholder="Np. Drukarka nie odpowiada" Text="{Binding NameInput}" MaxLength="120" />
+                            <Label Text="{Binding NameError}" TextColor="{StaticResource Danger}" FontSize="12" IsVisible="{Binding ShowNameError}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Opis" FontAttributes="Bold" />
+                            <Editor Placeholder="Opisz, co się dzieje i kiedy występuje problem" Text="{Binding DescriptionInput}" MaxLength="2000" />
+                            <Label Text="{Binding DescriptionError}" TextColor="{StaticResource Danger}" FontSize="12" IsVisible="{Binding ShowDescriptionError}" />
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Priorytet" FontAttributes="Bold" />
+                            <Picker Title="Wybierz priorytet" ItemsSource="{Binding Priorities}" SelectedItem="{Binding PriorityInput}" />
+                            <Label Text="{Binding PriorityError}" TextColor="{StaticResource Danger}" FontSize="12" IsVisible="{Binding ShowPriorityError}" />
+                        </VerticalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="{Binding SaveButtonText}" Command="{Binding SaveCommand}"
+                                    BackgroundColor="{StaticResource Accent}" TextColor="White" HorizontalOptions="FillAndExpand" />
+                            <Button Text="Anuluj" Command="{Binding CancelEditCommand}" IsVisible="{Binding IsEditing}"
+                                    BackgroundColor="{StaticResource AccentLight}" TextColor="{StaticResource Accent}" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding Feedback}" TextColor="{StaticResource Accent}" FontSize="13" />
+
+                        <BoxView HeightRequest="1" Color="{StaticResource Line}" Margin="0,2" />
+                        <Button Text="Uruchom testy MSTest" Command="{Binding RunTestsCommand}"
+                                BackgroundColor="{StaticResource AccentLight}" TextColor="{StaticResource Accent}" />
+                        <Label Text="{Binding TestReport}" IsVisible="{Binding IsTestReportVisible}"
+                               FontSize="12" TextColor="{StaticResource MutedInk}" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+
+            <Border x:Name="TicketListPanel" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    BackgroundColor="{StaticResource Surface}" Stroke="{StaticResource Line}" Padding="14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
+                <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <VerticalStackLayout Spacing="1">
+                            <Label Text="Zgłoszenia" FontSize="20" FontAttributes="Bold" />
+                            <Label Text="Wybierz status lub otwórz zgłoszenie do edycji." FontSize="12" TextColor="{StaticResource MutedInk}" />
+                        </VerticalStackLayout>
+                        <Label Grid.Column="1" Text="{Binding TotalCount, StringFormat='{}{0}'}" VerticalOptions="Center"
+                               TextColor="{StaticResource Accent}" FontAttributes="Bold" />
+                    </Grid>
+
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding Tickets}" SelectionMode="None">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout Padding="12,32" Spacing="7" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="Brak zgłoszeń" FontSize="17" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                <Label Text="Dodaj pierwsze zgłoszenie w formularzu." TextColor="{StaticResource MutedInk}" HorizontalTextAlignment="Center" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,10" Padding="14" BackgroundColor="#FAFCFB" Stroke="{StaticResource Line}">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                            <Label Text="{Binding Name}" FontSize="17" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                            <Label Grid.Column="1" Text="{Binding Priority}" Padding="9,4" BackgroundColor="{StaticResource AccentLight}"
+                                                   TextColor="{StaticResource Accent}" FontSize="12" FontAttributes="Bold" VerticalOptions="Center" />
+                                        </Grid>
+                                        <Label Text="{Binding Description}" FontSize="13" TextColor="{StaticResource MutedInk}" LineBreakMode="WordWrap" />
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" VerticalOptions="Center">
+                                            <Label Text="Status" VerticalOptions="Center" FontSize="13" FontAttributes="Bold" />
+                                            <Picker Grid.Column="1" ItemsSource="{Binding Source={x:Reference RootPage}, Path=BindingContext.Statuses}"
+                                                    SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" FontSize="13" />
+                                        </Grid>
+                                        <HorizontalStackLayout Spacing="8">
+                                            <Button Text="Edytuj" Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.EditTicketCommand}"
+                                                    CommandParameter="{Binding Ticket}" BackgroundColor="{StaticResource AccentLight}"
+                                                    TextColor="{StaticResource Accent}" HorizontalOptions="FillAndExpand" />
+                                            <Button Text="Usuń" Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.DeleteTicketCommand}"
+                                                    CommandParameter="{Binding Ticket}" BackgroundColor="#FDECEA" TextColor="{StaticResource Danger}"
+                                                    HorizontalOptions="FillAndExpand" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

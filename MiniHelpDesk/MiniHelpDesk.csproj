@@ -16,10 +16,42 @@
 		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
 		<PackageCertificateThumbprint>Twój_Thumbprint</PackageCertificateThumbprint>
 	</PropertyGroup>
+	
+	<ItemGroup>
+	  <Content Include="Properties\obj\Debug\net10.0-android\lp\163\jl\.net\__res_name_case_map.txt" />
+	  <Content Include="Properties\obj\Debug\net10.0-android\lp\165\jl\.net\__res_name_case_map.txt" />
+	  <Content Include="Properties\obj\Debug\net10.0-android\lp\166\jl\.net\__res_name_case_map.txt" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
 		<PackageReference Include="MSTest.TestFramework" Version="4.5.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Properties\bin\Debug\net10.0-android\" />
+	  <Folder Include="Properties\obj\Debug\net10.0-android\res\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Properties\MiniHelpDesk.csproj" />
+	  <None Include="Properties\MiniHelpDesk.csproj.user" />
+	  <None Include="Properties\MiniHelpDesk.sln" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Properties\App.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Properties\MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Properties\obj\Debug\net10.0-windows10.0.19041.0\win-x64\Platforms\Windows\App.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Properties\Platforms\Windows\App.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
